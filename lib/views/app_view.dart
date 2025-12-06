@@ -10,41 +10,57 @@ class AppView extends StatelessWidget {
     return Scaffold(
       appBar: _appBarWidget(),
       body: navigationShell, //Seçilen sayfayı gösterir
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        indicatorColor: Colors.transparent,
-        onDestinationSelected:
-            navigationShell.goBranch, //Hangisine basıldığı bilgisini iletir
-      destinations: [
-        _menuItem(
-          context,
-          index: 0,
-          currentIndex: navigationShell.currentIndex,
-          label: 'Karakterler',
-          icon: Icons.face,
+      bottomNavigationBar: NavigationBarTheme(
+        data: NavigationBarThemeData(
+          labelTextStyle:WidgetStateTextStyle.resolveWith(( states) {
+            if (states.contains(WidgetState.selected)) {
+              return TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              );
+            }
+            return TextStyle(
+              color: Theme.of(context).colorScheme.tertiary,
+            );
+
+          }
+          )
         ),
-        _menuItem(
-          context,
-          index: 1,
-          currentIndex: navigationShell.currentIndex,
-          label: 'Favoriler',
-          icon: Icons.bookmark,
+        child: NavigationBar(
+          selectedIndex: navigationShell.currentIndex,
+          indicatorColor: Colors.transparent,
+          onDestinationSelected:
+              navigationShell.goBranch, //Hangisine basıldığı bilgisini iletir
+        destinations: [
+          _menuItem(
+            context,
+            index: 0,
+            currentIndex: navigationShell.currentIndex,
+            label: 'Karakterler',
+            icon: Icons.face,
+          ),
+          _menuItem(
+            context,
+            index: 1,
+            currentIndex: navigationShell.currentIndex,
+            label: 'Favoriler',
+            icon: Icons.bookmark,
+          ),
+          _menuItem(
+            context,
+            index: 2,
+            currentIndex: navigationShell.currentIndex,
+            label: 'Konumlar',
+            icon: Icons.location_on,
+          ),
+          _menuItem(
+            context,
+            index: 3,
+            currentIndex: navigationShell.currentIndex,
+            label: 'Bölümler',
+            icon: Icons.menu,
+          ),
+        ],
         ),
-        _menuItem(
-          context,
-          index: 2,
-          currentIndex: navigationShell.currentIndex,
-          label: 'Konumlar',
-          icon: Icons.location_on,
-        ),
-        _menuItem(
-          context,
-          index: 3,
-          currentIndex: navigationShell.currentIndex,
-          label: 'Bölümler',
-          icon: Icons.menu,
-        ),
-      ],
       ),
       );
       
@@ -52,8 +68,8 @@ class AppView extends StatelessWidget {
 
   Widget _menuItem(
     BuildContext context, {
-    required int index,
-    required int currentIndex,
+    required int index,//Bu oluşturduğum buton kaçıncı buton?
+    required int currentIndex,//Şu an hangi buton seçili?
     required String label,
     required IconData icon,
   }) {
